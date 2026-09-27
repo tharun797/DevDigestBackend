@@ -34,9 +34,10 @@ query($from: DateTime!, $to: DateTime!) {
   }
 }
 """
-async def fetch_contributions(days: int = 7) -> dict:
-    """Fetch the authenticated user's GitHub contributions for the last `days` days."""
-    to_date = datetime.now(timezone.utc)
+
+async def fetch_contributions(days: int = 7, offset_days: int = 0) -> dict:
+    """Fetch contributions for a window of `days`, ending `offset_days` ago."""
+    to_date = datetime.now(timezone.utc) - timedelta(days=offset_days)
     from_date = to_date - timedelta(days=days)
 
     headers = {
